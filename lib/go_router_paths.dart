@@ -1,4 +1,4 @@
 /// A Very Good Project created by Very Good CLI.
 library go_router_paths;
 
-export 'src/go_router_paths.dart' show Path, Param;
+export 'src/go_router_paths.dart' show Path, Param, Queryable;

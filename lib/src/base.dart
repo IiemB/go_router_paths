@@ -166,6 +166,16 @@ abstract class Base<T extends Base<dynamic>> with Query<T> {
     return this as T;
   }
 
+  /// Converts the given [Queryable] object to a query string and processes it.
+  ///
+  /// This method takes a [Queryable] object, converts it to a query string
+  /// using the `toQuery` method of the [Queryable] object, and then processes
+  /// the query string using the `query` method.
+  ///
+  /// - Parameter object: The [Queryable] object to be converted and processed.
+  /// - Returns: The result of processing the query string.
+  T withQuery(Queryable object) => query(object.toQuery());
+
   /// the path to be used for `GoRoute.path`
   String get goRoute {
     final path = _path;
