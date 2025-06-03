@@ -7,6 +7,7 @@ class AppPaths {
 
   static UsersPath get users => UsersPath();
   static Param<Param> get books => Param('books', 'bookId');
+  static SettingPath get setting => SettingPath();
 }
 
 class WelcomePath extends Path<WelcomePath> {
@@ -27,6 +28,14 @@ class UserPath extends Param<UserPath> {
 
   Path get edit => Path('edit', parent: this);
   Path get delete => Path('delete', parent: this);
+}
+
+class SettingPath extends Path<UsersPath> {
+  SettingPath() : super('setting');
+
+  Path get edit => Path('edit', parent: this);
+
+  Param<Param> get account => Param('account', 'userId', parent: this);
 }
 
 void main() {
@@ -53,5 +62,21 @@ void main() {
           .query({'first-trilogy-only': 'true'}).path,
       '/books/Star%20Wars?first-trilogy-only=true',
     );
+    expect(
+      AppPaths.setting.account
+          .define('profile')
+          .withQuery(UserSetter('userId'))
+          .path,
+      '/setting/account/profile?userId=userId',
+    );
   });
+}
+
+class UserSetter with Queryable {
+  UserSetter(this.userId);
+
+  final String userId;
+
+  @override
+  Map<String, dynamic> toJson() => {'userId': userId};
 }

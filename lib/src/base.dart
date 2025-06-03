@@ -30,6 +30,7 @@ abstract class Base<T extends Base<dynamic>> with Query<T> {
 
   Iterable<String> get _segments sync* {
     final parent = _parent;
+
     if (parent != null) {
       final segments = parent._segments;
 
@@ -60,8 +61,8 @@ abstract class Base<T extends Base<dynamic>> with Query<T> {
       params.addAll(base._params);
 
       if (base._parent != null) {
-        params.addAll(base._parent!._params);
-        paramsFrom(base._parent!);
+        params.addAll(base._parent._params);
+        paramsFrom(base._parent);
       }
     }
 
@@ -77,8 +78,8 @@ abstract class Base<T extends Base<dynamic>> with Query<T> {
       queries.addAll(base._queryParameters);
 
       if (base._parent != null) {
-        queries.addAll(base._parent!._queryParameters);
-        queriesFrom(base._parent!);
+        queries.addAll(base._parent._queryParameters);
+        queriesFrom(base._parent);
       }
     }
 
@@ -174,7 +175,11 @@ abstract class Base<T extends Base<dynamic>> with Query<T> {
   ///
   /// - Parameter object: The [Queryable] object to be converted and processed.
   /// - Returns: The result of processing the query string.
-  T withQuery(Queryable object) => query(object.toQuery());
+  T withQuery(Queryable object) {
+    _queryParameters.addAll(object.toQuery());
+
+    return this as T;
+  }
 
   /// the path to be used for `GoRoute.path`
   String get goRoute {
