@@ -24,8 +24,11 @@ mixin Queryable {
   ///
   /// Returns a map where the keys and values are strings. The values are
   /// trimmed and any entries with empty values are removed.
-  Map<String, String> toQuery() => {
-        for (final map in toJson().entries)
-          map.key: map.value.toString().trim(),
-      }..removeWhere((key, value) => value.trim().isEmpty);
+  Map<String, String> toQuery() {
+    final entries = toJson().entries.where((element) => element.value != null);
+
+    return {
+      for (final map in entries) map.key: map.value.toString().trim(),
+    }..removeWhere((key, value) => value.trim().isEmpty);
+  }
 }
